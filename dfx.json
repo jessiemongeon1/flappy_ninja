@@ -1,0 +1,26 @@
+{
+  "canisters": {
+    "flappy_bird_backend": {
+      "main": "src/flappy_bird_backend/main.mo",
+      "type": "motoko"
+    },
+    "flappy_bird_frontend": {
+      "dependencies": [
+        "flappy_bird_backend"
+      ],
+      "source": [
+        "src/flappy_bird_frontend/dist"
+      ],
+      "type": "assets",
+      "workspace": "flappy_bird_frontend"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
