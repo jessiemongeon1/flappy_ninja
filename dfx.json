@@ -1,18 +1,18 @@
 {
   "canisters": {
-    "flappy_bird_backend": {
-      "main": "src/flappy_bird_backend/main.mo",
+    "backend": {
+      "main": "src/backend/main.mo",
       "type": "motoko"
     },
-    "flappy_bird_frontend": {
+    "frontend": {
       "dependencies": [
-        "flappy_bird_backend"
+        "backend"
       ],
       "source": [
-        "src/flappy_bird_frontend/dist"
+        "src/frontend/dist"
       ],
       "type": "assets",
-      "workspace": "flappy_bird_frontend"
+      "workspace": "frontend"
     }
   },
   "defaults": {
