@@ -2,7 +2,7 @@ import Array "mo:base/Array";
 import Int "mo:base/Int";
 import Random "mo:base/Random";
 
-actor FlappyBird {
+actor FlappyNinja {
   type LeaderboardEntry = {
     name : Text;
     score : Nat;

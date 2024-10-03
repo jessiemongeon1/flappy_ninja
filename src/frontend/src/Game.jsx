@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Motoko from "./Motoko";
+import Ninja from "./Ninja";
 import Pipes from "./Pipes";
 import Score from "./Score";
 import Leaderboard from "./Leaderboard";
@@ -31,9 +31,9 @@ class SeededRNG {
 const Game = () => {
     const gravity = 1;
     const jumpHeight = -10;
-    const birdStartY = 200;
-    const pipeStartX = 500;
-    const gapHeight = 150;
+    const ninjaStartY = 200;
+    const pipeStartX = 400;
+    const gapHeight = 200;
 
     const [rng, setRng] = useState(null);
     const [leaderboard, setLeaderboard] = useState([]);
@@ -69,8 +69,8 @@ const Game = () => {
     }, []);
 
     const [gameState, setGameState] = useState("initial");
-    const [birdY, setBirdY] = useState(birdStartY);
-    const [birdVelocity, setBirdVelocity] = useState(0);
+    const [ninjaY, setNinjaY] = useState(ninjaStartY);
+    const [ninjaVelocity, setNinjaVelocity] = useState(0);
     const [pipeX, setPipeX] = useState(pipeStartX);
     const [gapPosition, setGapPosition] = useState(100);
     const [score, setScore] = useState(0);
@@ -83,19 +83,19 @@ const Game = () => {
     };
 
     const resetGame = () => {
-        setBirdY(birdStartY);
-        setBirdVelocity(0);
+        setNinjaY(ninjaStartY);
+        setNinjaVelocity(0);
         setPipeX(pipeStartX);
         setGapPosition(100);
         setScore(0);
         setGameState("playing");
     };
 
-    // Handle gravity and bird movement
+    // Handle gravity and ninja movement
     useEffect(() => {
         const handleKeyPress = (event) => {
             if (event.key === " " && gameState === "playing") {
-                setBirdVelocity(jumpHeight);
+                setNinjaVelocity(jumpHeight);
             }
         };
         window.addEventListener("keypress", handleKeyPress);
@@ -110,31 +110,31 @@ const Game = () => {
 
         if (gameState === "playing" && rng) {
             gameLoop = setInterval(() => {
-                setBirdY((prevY) =>
-                    Math.min(prevY + birdVelocity, window.innerHeight - 30)
+                setNinjaY((prevY) =>
+                    Math.min(prevY + ninjaVelocity, window.innerHeight - 10)
                 );
-                setBirdVelocity((prevVelocity) => prevVelocity + gravity);
+                setNinjaVelocity((prevVelocity) => prevVelocity + gravity);
 
                 setPipeX((prevX) => {
-                    if (prevX < -50) {
+                    if (prevX < -5) {
                         // rng.next() already returns a number between 0 and 1
                         setGapPosition(
                             rng.next() * (window.innerHeight - gapHeight)
                         );
                         setScore((prevScore) => prevScore + 1);
-                        return window.innerWidth + 50;
+                        return window.innerWidth + 5;
                     }
                     return prevX - 5;
                 });
 
                 // Collision detection
                 if (
-                    birdY < 0 ||
-                    birdY + 30 >= window.innerHeight ||
+                    ninjaY < 0 ||
+                    ninjaY + 30 >= window.innerHeight ||
                     (pipeX < 130 &&
                         pipeX > 80 &&
-                        (birdY < gapPosition ||
-                            birdY > gapPosition + gapHeight))
+                        (ninjaY < gapPosition ||
+                            ninjaY > gapPosition + gapHeight))
                 ) {
                     setGameState("gameOver");
                     checkHighScore();
@@ -143,7 +143,7 @@ const Game = () => {
         }
 
         return () => clearInterval(gameLoop);
-    }, [birdY, birdVelocity, pipeX, gapPosition, gameState, rng]);
+    }, [ninjaY, ninjaVelocity, pipeX, gapPosition, gameState, rng]);
 
     const checkHighScore = async () => {
         const isHighScore = await backend.isHighScore(
@@ -179,8 +179,8 @@ const Game = () => {
                         textAlign: "center",
                     }}
                 >
-                    <h1>Flappy Bird</h1>
-                    <p>Press the spacebar to make the bird jump.</p>
+                    <h1>Flappy Ninja</h1>
+                    <p>Press the spacebar to make the ninja jump.</p>
                     <p>Avoid the pipes and try to get the highest score!</p>
                     <button
                         onClick={startGame}
@@ -198,7 +198,7 @@ const Game = () => {
             )}
             {gameState === "playing" && (
                 <>
-                    <Motoko birdY={birdY} />
+                    <Ninja ninjaY={ninjaY} />
                     <Pipes
                         pipeX={pipeX}
                         gapHeight={gapHeight}

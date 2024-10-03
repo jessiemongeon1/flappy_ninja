@@ -1,10 +1,10 @@
 const Pipes = ({ pipeX, gapHeight, gapPosition }) => {
-    const pipeWidth = 50;
+    const pipeWidth = 75;
 
     const pipeStyle = {
         position: "absolute",
         width: `${pipeWidth}px`,
-        backgroundColor: "green",
+        backgroundColor: "orange",
     };
 
     return (
